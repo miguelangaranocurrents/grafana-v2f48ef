@@ -68,16 +68,14 @@ export const VizLayout: VizLayoutComponentType = ({ width, height, legend, child
       containerStyle.flexDirection = 'column';
       legendStyle.maxHeight = maxHeight;
 
-      if (legendMeasure.height) {
-        size = { width, height: height - legendMeasure.height };
-      }
+      // The legend can render nothing (e.g. legacy `hidden` display mode) and measure 0 tall;
+      // the viz must still be rendered then (a 0 height falls back to the full height below).
+      size = { width, height: height - legendMeasure.height };
       break;
     case 'right':
       containerStyle.flexDirection = 'row';
 
-      if (legendMeasure.width) {
-        size = { width: width - legendMeasure.width, height };
-      }
+      size = { width: width - legendMeasure.width, height };
 
       if (typeof legend.props.width === 'string') {
         legendStyle.width = legend.props.width;

@@ -53,23 +53,29 @@ export function QueryVariableEditor({ variable, onRunQuery }: QueryVariableEdito
   } = variable.useState();
   const { value: timeRange } = sceneGraph.getTimeRange(variable).useState();
 
+  // Options that affect the resulting values re-run the query so the preview stays in sync
   const onRegExChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     variable.setState({ regex: event.currentTarget.value });
+    onRunQuery();
   };
   const onRegexApplyToChange = (event: VariableRegexApplyTo) => {
     variable.setState({ regexApplyTo: event });
+    onRunQuery();
   };
   const onSortChange = (sort: SelectableValue<VariableSort>) => {
     variable.setState({ sort: sort.value });
+    onRunQuery();
   };
   const onRefreshChange = (refresh: VariableRefresh) => {
     variable.setState({ refresh: refresh });
   };
   const onMultiChange = (event: FormEvent<HTMLInputElement>) => {
     variable.setState({ isMulti: event.currentTarget.checked });
+    onRunQuery();
   };
   const onIncludeAllChange = (event: FormEvent<HTMLInputElement>) => {
     variable.setState({ includeAll: event.currentTarget.checked });
+    onRunQuery();
   };
   const onAllValueChange = (event: FormEvent<HTMLInputElement>) => {
     variable.setState({ allValue: event.currentTarget.value });

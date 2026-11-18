@@ -764,6 +764,12 @@ function normalizeZone(zone: string | Zone): Zone {
 
   let normalized = easyTzZoneCache.get(name);
 
+  // moment-timezone ignores zone names it has no data for (e.g. a dashboard saved with
+  // `timezone: 'default'`) and keeps local time; luxon would produce an invalid DateTime instead.
+  if (!normalized && !IANAZone.isValidZone(name) && findTimeZoneAt(name, Date.now()) === undefined) {
+    return Settings.defaultZone;
+  }
+
   if (!normalized) {
     normalized = new EasyTzZone(name);
     easyTzZoneCache.set(name, normalized);
